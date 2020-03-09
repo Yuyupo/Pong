@@ -21,6 +21,18 @@ sf::RectangleShape Player::getPlayer() {
   return m_player;
 }
 
+sf::FloatRect Player::getBounds() {
+  return m_player.getGlobalBounds();
+}
+
+void Player::updateScore() {
+  m_score++;
+}
+
+uint8_t Player::getScore() {
+  return m_score;
+}
+
 void Player::update(float dt) {
   float padding = 10.0f;
   float playerSizeY = m_player.getSize().y / 2.0f + padding;

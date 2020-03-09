@@ -16,9 +16,25 @@ Enemy enemy;
 Ball ball;
 
 void init() {
-  player.init(sf::Vector2f(50.0f, 100.0f), viewSize);
-  enemy.init(sf::Vector2f(50.0f, 100.0f), viewSize);
-  ball.init(20.0f, viewSize);
+  player.init(sf::Vector2f(viewSize.x / 16, viewSize.y / 4), viewSize);
+  enemy.init(sf::Vector2f(viewSize.x / 16, viewSize.y / 4), viewSize);
+  ball.init(viewSize.x / 32, viewSize);
+}
+
+void draw() {
+    window.draw(player.getPlayer());
+    window.draw(enemy.getEnemy());
+    window.draw(ball.getBall());
+}
+
+void score(){
+  if (!(ball.checkGoal() < 1)) {
+    if (ball.checkGoal() == 1) {
+      player.updateScore();
+    } else {
+      enemy.updateScore();
+    }
+  }
 }
 
 void updateInput() {
@@ -42,12 +58,8 @@ void updateInput() {
 void update(float deltaTime) {
   enemy.update(deltaTime);
   player.update(deltaTime);
-}
-
-void draw() {
-    window.draw(player.getPlayer());
-    window.draw(enemy.getEnemy());
-    window.draw(ball.getBall());
+  ball.update(deltaTime);
+  score();
 }
 
 int main() {
@@ -65,7 +77,6 @@ int main() {
     sf::Time deltaTime = clock.restart();
     updateInput();
     update(deltaTime.asSeconds());
-
   }
   return 0;
 }

@@ -1,7 +1,5 @@
 #include "Enemy.h"
 
-#include <iostream>
-
 Enemy::Enemy(){};
 Enemy::~Enemy(){};
 
@@ -22,9 +20,24 @@ sf::RectangleShape Enemy::getEnemy() {
   return m_enemy;
 }
 
+sf::FloatRect Enemy::getBounds() {
+  return m_enemy.getGlobalBounds();
+}
+
+void Enemy::updateScore() {
+  m_score++;
+}
+
+uint8_t Enemy::getScore() {
+  return m_score;
+}
+
 void Enemy::update(float dt) {
-  if (m_enemy.getPosition().y - 60 < 0) m_movingUp = false;
-  if ((m_enemy.getPosition().y + 60) >= m_viewSize.y) m_movingUp = true;
+  float padding = 10.0f;
+  float enemySizeY = m_enemy.getSize().y / 2.0f + padding;
+
+  if (m_enemy.getPosition().y - enemySizeY < 0) m_movingUp = false;
+  if ((m_enemy.getPosition().y + enemySizeY) >= m_viewSize.y) m_movingUp = true;
 
   if (m_movingUp) {
     m_enemy.move(0.f, -300.0f * dt);
